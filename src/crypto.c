@@ -4,6 +4,7 @@
 #include <sys/random.h>
 
 char saltchars[]="abcdefghikjlmnopqrstuvWxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+@£[]}";
+int saltCharsLength = (sizeof(saltchars) / sizeof(char));
 
 int main(int argc, char** argv){
 
