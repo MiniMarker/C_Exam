@@ -1,15 +1,24 @@
-TARGET = crypto
+# FLAGS
 CFLAGS = -g -Wall -g -Wextra
 CC = gcc
 CRYPTOFLAG = -lcrypt
 
-$(TARGET): crypto.o 
-	$(CC) $(CFLAGS) -o bin/$(TARGET) build/$(TARGET).o $(CRYPTOFLAG)
+# DIRECTORIES
+SRC_DIR = src
+BIN_DIR = bin
+BUILD_DIR = build
 
-crypto.o: ./src/crypto.c
-	$(CC) $(CFLAGS) -c -o build/$(TARGET).o src/$(TARGET).c
+#FILES
+TARGET = crypto
 
+# RUN CMD
+$(TARGET): $(TARGET).o 
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/$(TARGET) $(BUILD_DIR)/$(TARGET).o $(CRYPTOFLAG)
+
+# GENERATE .o FILES
+crypto.o: ./$(SRC_DIR)/$(TARGET).c
+	$(CC) $(CFLAGS) -c -o $(BUILD_DIR)/$(TARGET).o $(SRC_DIR)/$(TARGET).c
+
+# UTIL CMDS
 clean:
-	rm ./build/*.o
-
-remake: clean $(TARGET)
+	rm ./$(BUILD_DIR)/*.o

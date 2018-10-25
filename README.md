@@ -3,4 +3,7 @@
 ## How to run
 1. From root folder in the project
 2. run ´make´
-3. run ´./build/crypto´
+3. run ´./build/crypto <"password">´
+
+### Aditional make commands
+- ´make clean´
