@@ -17,7 +17,7 @@ $(TARGET): crypto.o
 
 # GENERATE .o FILES
 crypto.o: ./$(SRC_DIR)/crypto.c
-	$(CC) $(CC_FLAGS) -c -o $(BUILD_DIR)/$(TARGET).o $(SRC_DIR)/$(TARGET).c
+	$(CC) $(CC_FLAGS) -c $(BUILD_DIR)/$(TARGET).o $(SRC_DIR)/$(TARGET).c
 
 # UTIL CMDS
 clean:
@@ -25,3 +25,12 @@ clean:
 
 remake: 
 	clean $(TARGET)
+
+############################################## TESTS
+
+TST_LIBS = -lcheck -lm -lpthread -lrt 
+
+demo.o : ./spike/demo.c
+	$(CC) $(CC_FLAGS) -c build/demo.o spike/demo.c
+
+
