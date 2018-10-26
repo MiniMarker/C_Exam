@@ -7,3 +7,8 @@
 
 ### Aditional make commands
 - ´make clean´
+
+
+0 = bruteforce
+1 = Great @ line 217174
+2 = bruteforce

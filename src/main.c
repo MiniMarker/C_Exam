@@ -5,81 +5,72 @@
 #include <pthread.h>
 #include <crypt.h>
 
+int decrypt();
+int readFile(char salt[13], char hash[22], char fullPassword[35]);
+
 typedef struct {
     char salt[13];
     char hash[22];
-} Password;
+} HashedPassword;
 
 int decrypt() {
-
     FILE *hashFile;
     char* hashFilePath = "./src/resources/hashes.txt";
     char readPasswordBuffer[35];
     
     hashFile = fopen(hashFilePath, "r");
-
     
-    for(int i = 1; i < 2; i++) {
-
-        char hashedPassword[22];
-
+    for(int i = 0; i < 9; i++) {
+        
         fscanf(hashFile, "%s", readPasswordBuffer);
 
-        printf("%s\n", readPasswordBuffer);
+        if(i == 2) {
+            char hashedPassword[22], salt[13];
 
-        readFile("oi");
-
-        /*
-        if(strcmp(inputHash, password) == 0){
-            printf("%d: %s\n", i, password);
-            break;
-        }
-        */
+            //printf("%s\n", readPasswordBuffer);
         
+            //extract salt and hash
+            //strrchr reads the char* from back until it hits a specified delimiter
+            snprintf(salt, 13, readPasswordBuffer);
+            strncpy(hashedPassword, (strrchr(readPasswordBuffer, '$') + 1), 22);
+ 
+            //printf("salt: %s\n", salt);
+            //printf("hash: %s\n", hashedPassword);
+            //printf("------------\n");
+
+            readFile(salt, hashedPassword, readPasswordBuffer);
+        }
     }
 
     fclose(hashFile);
-    /*
-    char salt[13] = "$1$JTXmp2C4$";
-    char* hash = "christian";
-
-    char* encrypted = crypt(hash, salt);
-
-    printf("%s\n", encrypted);
-    */
+    
     return 0;
 }
 
-
-int readFile(char* inputHash){
-    char password[20], line[20], *filePath;
+int readFile(char salt[13], char hash[22], char fullPassword[35]){
+    char line[20], encryptedLookup[35];
     FILE *dictionary_file;
 
-    filePath = calloc(40, sizeof(char));
-    
-    snprintf(filePath, 31, "./src/resources/dictionary.txt");
-    
-    dictionary_file = fopen(filePath, "r");
+    dictionary_file = fopen("./src/resources/dictionary.txt", "r");
     
     assert(dictionary_file != NULL);
     
-    // TODO why doesnit it match?!
     while (fgets(line, sizeof(line), dictionary_file) != 0) { 
 
         line[strcspn(line, "\n")] = 0;
 
-        printf("%s\n", line);
+        strncpy(encryptedLookup, crypt(line, salt), 35);
         
-        if(strcmp(inputHash, line) == 0) {
-            printf("FOUND: %s\n", line);
+        //printf("encrypted: %s   -   original: %s\n", encryptedLookup, line);
+
+        if(strcmp(encryptedLookup, fullPassword) == 0) {
+            printf("FOUND: %s    =   %s\n", encryptedLookup, line);
             break;
         }
-        
     }
 
 
     fclose(dictionary_file);
-    free(filePath);
     return 0;
 };
 
