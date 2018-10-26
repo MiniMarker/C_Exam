@@ -25,12 +25,3 @@ clean:
 
 remake: 
 	clean $(TARGET)
-
-############################################## TESTS
-
-TST_LIBS = -lcheck -lm -lpthread -lrt 
-
-demo.o : ./spike/demo.c
-	$(CC) $(CC_FLAGS) -c build/demo.o spike/demo.c
-
-
