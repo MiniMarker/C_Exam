@@ -17,7 +17,7 @@ int main(int argc, char** argv){
 		salt[i] = saltchars[salt[i] & 0x3f];
 	}
 	*/
-	char* encrypted = crypt(passwd, salt);
+	char* encrypted = crypt(passwd, passwd);
 	printf("%s\n", encrypted);
 	//free(encrypted);
 	return 0;

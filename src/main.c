@@ -5,18 +5,18 @@
 #include <pthread.h>
 #include <crypt.h>
 
-int decrypt();
-int readFile(char salt[13], char hash[22], char fullPassword[35]);
+int getHashFromFile();
+int lookupHashInDictionary(char salt[13], char hash[22], char fullHash[35]);
 
 typedef struct {
-    char salt[13];
-    char hash[22];
+    char    salt[13];
+    char    hash[22];
 } HashedPassword;
 
-int decrypt() {
-    FILE *hashFile;
-    char* hashFilePath = "./src/resources/hashes.txt";
-    char readPasswordBuffer[35];
+int getHashFromFile() {
+    FILE    *hashFile;
+    char    *hashFilePath = "./src/resources/hashes.txt";
+    char    readPasswordBuffer[35];
     
     hashFile = fopen(hashFilePath, "r");
     
@@ -24,8 +24,10 @@ int decrypt() {
         
         fscanf(hashFile, "%s", readPasswordBuffer);
 
-        if(i == 2) {
-            char hashedPassword[22], salt[13];
+        // only lookup line 2 in list for now
+        if(i == 1) {
+            char    hashedPassword[22], 
+                    salt[13];
 
             //printf("%s\n", readPasswordBuffer);
         
@@ -38,7 +40,7 @@ int decrypt() {
             //printf("hash: %s\n", hashedPassword);
             //printf("------------\n");
 
-            readFile(salt, hashedPassword, readPasswordBuffer);
+            lookupHashInDictionary(salt, hashedPassword, readPasswordBuffer);
         }
     }
 
@@ -47,28 +49,31 @@ int decrypt() {
     return 0;
 }
 
-int readFile(char salt[13], char hash[22], char fullPassword[35]){
-    char line[20], encryptedLookup[35];
-    FILE *dictionary_file;
+int lookupHashInDictionary(char salt[13], char hash[22], char fullHash[35]){
+    char    line[20], 
+            encryptedLookup[35], 
+            hashPassLookup[22];
+    FILE    *dictionary_file;
 
+    //open file and assert it`s success
     dictionary_file = fopen("./src/resources/dictionary.txt", "r");
-    
     assert(dictionary_file != NULL);
     
     while (fgets(line, sizeof(line), dictionary_file) != 0) { 
 
-        line[strcspn(line, "\n")] = 0;
+        //remove \n from the end of the line
+        strtok(line, "\n");
 
+        //encrypt line with salt from hash file and save result in encryptedLookup
         strncpy(encryptedLookup, crypt(line, salt), 35);
         
         //printf("encrypted: %s   -   original: %s\n", encryptedLookup, line);
 
-        if(strcmp(encryptedLookup, fullPassword) == 0) {
+        if(strcmp(encryptedLookup, fullHash) == 0) {
             printf("FOUND: %s    =   %s\n", encryptedLookup, line);
             break;
         }
     }
-
 
     fclose(dictionary_file);
     return 0;
@@ -77,9 +82,7 @@ int readFile(char salt[13], char hash[22], char fullPassword[35]){
 
 int main(int argc, char const *argv[]) {
 
-    decrypt();
-
-    //Password pass = splitHash("$1$JTXmp2C4$nS9ySJPUyya/0ChXbDeeB.");
+    getHashFromFile();
 
     return 0;
 }
