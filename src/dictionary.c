@@ -5,15 +5,14 @@
 #include <pthread.h>
 #include <crypt.h>
 
-int getHashFromFile();
-int lookupHashInDictionary(char salt[13], char hash[22], char fullHash[35]);
+#include "../include/dictionary.h"
 
 typedef struct {
     char    salt[13];
     char    hash[22];
 } HashedPassword;
 
-int getHashFromFile() {
+int getHashFromFile(int mode) {
     FILE    *hashFile;
     char    *hashFilePath = "./src/resources/hashes.txt";
     char    readPasswordBuffer[35];
@@ -21,6 +20,8 @@ int getHashFromFile() {
     hashFile = fopen(hashFilePath, "r");
     
     for(int i = 0; i < 9; i++) {
+
+        printf("Lokking for matches for line %d\n", i);
         
         fscanf(hashFile, "%s", readPasswordBuffer);
 
@@ -40,19 +41,22 @@ int getHashFromFile() {
             //printf("hash: %s\n", hashedPassword);
             //printf("------------\n");
 
-            lookupHashInDictionary(salt, hashedPassword, readPasswordBuffer);
+            if(mode == 1) {
+                lookupHashInDictionary(salt, hashedPassword, readPasswordBuffer);
+            } else {
+                bruteforce(salt, hashedPassword, readPasswordBuffer);
+            }
+            
         }
     }
 
     fclose(hashFile);
-    
     return 0;
 }
 
 int lookupHashInDictionary(char salt[13], char hash[22], char fullHash[35]){
     char    line[20], 
-            encryptedLookup[35], 
-            hashPassLookup[22];
+            encryptedLookup[35];
     FILE    *dictionary_file;
 
     //open file and assert it`s success
@@ -79,10 +83,8 @@ int lookupHashInDictionary(char salt[13], char hash[22], char fullHash[35]){
     return 0;
 };
 
-
 int main(int argc, char const *argv[]) {
 
-    getHashFromFile();
-
+    getHashFromFile(0);
     return 0;
-}
+};
