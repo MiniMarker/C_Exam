@@ -104,3 +104,5 @@ Temporary Items
 
 # End of https://www.gitignore.io/api/c,osx,macos,visualstudiocode
 
+bin/*
+!bin/.keep
