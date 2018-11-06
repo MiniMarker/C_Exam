@@ -7,13 +7,10 @@ typedef struct SplittedPassword {
 } SplittedPassword;
 
 //int bruteforce(char salt[13], char hash[22], char fullHash[35]);
+SplittedPassword splitHash(char *hash);
 int generateQuesses(char passchars[], char* currentGuess, int index, int maxPasswordLength);
 int getHashFromFile(int mode);
 int lookupHashInDictionary(char salt[13], char hash[22]); // char salt[13], char hash[22]
-SplittedPassword splitHash(char *hash);
-
-
-
-
+int lookupGivenHash(char *hash);
 
 #endif //__MAIN_H__

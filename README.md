@@ -7,7 +7,7 @@ This is a project for decrypting encrypted password by reversing the MD5-encrypt
 1. From root folder in the project, run the following commands:
     - `make`
         - a) `./bin/main`
-        - b) `./bin/main <hash to be decrypted>`
+        - b) `./bin/dictionary '$1$ckvWM6T@$H6H/R5d4a/QjpB02Ri/V01'`
 
 ### Aditional make commands
 - `make clean`

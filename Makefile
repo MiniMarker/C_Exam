@@ -1,3 +1,5 @@
+# TODO Fix makefile
+
 # FLAGS
 CC = gcc
 CC_FLAGS = -Wall -g -Wextra
@@ -12,8 +14,9 @@ BUILD_DIR = build
 TARGET = main
 
 # RUN CMD
-$(TARGET): main.o 
-	$(CC) $(CC_FLAGS) -o $(BIN_DIR)/$(TARGET) $(BUILD_DIR)/$(TARGET).o $(CRYPTO_FLAG)
+$(TARGET): 
+	gcc -Wall src/main.c src/dictionary.c -o bin/dictionary -lcrypt
+	#$(CC) $(CC_FLAGS) -o $(BIN_DIR)/$(TARGET) $(BUILD_DIR)/$(TARGET).o $(CRYPTO_FLAG)
 
 # GENERATE .o FILES
 main.o: ./$(SRC_DIR)/main.c

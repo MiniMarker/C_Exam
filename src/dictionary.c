@@ -6,16 +6,44 @@
 
 #include "../include/dictionary.h"
 
-SplittedPassword splitHash(char *hash) {
+SplittedPassword splitHash(char hash[35]) {
+
+    printf("IN SPLIT FUNCTION:\n");
 
     SplittedPassword res;
+
+    printf("length: %ld\n", strlen(hash));
+    char *hashextract = (strrchr(hash, '$') + 1);
+
+    printf("extracted hash: %s\n", hashextract);
+    printf("extracted hash length: %d\n", strlen(hashextract));
 
     //extract salt and hash
     //strrchr reads the char* from back until it hits a specified delimiter
     snprintf(res.salt, 13, "%s", hash);
-    strncpy(res.hash, (strrchr(hash, '$') + 1), 22);
+    strncpy(res.hash, hashextract, 22);
+
+    printf("salt in structure: %s\n", res.salt);
+    printf("hash in structure: %s\n", res.hash);
 
     return res;
+}
+
+int lookupGivenHash(char *hash) {
+    
+    printf("input hash: %s\n", hash);
+
+    SplittedPassword passStruct1 = splitHash(hash);
+
+    printf("IN lookupGivenHash: \n");
+    printf("Splitted hash: \n");
+
+    printf("salt: %s\n", passStruct1.salt);
+    printf("hash: %s\n", passStruct1.hash);
+
+    lookupHashInDictionary(passStruct1.salt, passStruct1.hash);
+
+    return 0;
 }
 
 int getHashFromFile(int mode) {
@@ -85,17 +113,5 @@ int lookupHashInDictionary(char salt[13], char hash[22]){
     }
 
     fclose(dictionary_file);
-    return 0;
-};
-
-int main(int argc, char const *argv[]) {
-
-    // TODO if no argument is sent in with main, look up all hashes in file. Else look up given hash
-    // TODO Threads
-
-    argv[1] == NULL ? getHashFromFile(1) : printf("Now looking up given hash\n");
-
-    //getHashFromFile(1);
-    //bruteforce();
     return 0;
 };
