@@ -1,9 +1,13 @@
 # C_Exam 2018
 
+## Description
+This is a project for decrypting encrypted password by reversing the MD5-encryption method
+
 ## How to run
 1. From root folder in the project, run the following commands:
     - `make`
-    - `./bin/main`
+        - a) `./bin/main`
+        - b) `./bin/main <hash to be decrypted>`
 
 ### Aditional make commands
 - `make clean`
