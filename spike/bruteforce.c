@@ -1,56 +1,51 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 //static char *passchar = "abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+\"#&/()=?!@$|[]|{}";
 static char *passchar = "ABC";
 
-int generatePassword(char *currentGuess, int currentIndex, int passcharIndex, int maxLength) {
+char *sconcat(const char *s1, const char *s2)
+{
+  char *s0 = malloc(strlen(s1)+strlen(s2)+1);
+  strcpy(s0, s1);
+  strcat(s0, s2);
+  return s0;
+}
 
-    if(currentIndex > maxLength) {
-        return 0;
-    };
-
-    if (strlen(currentGuess) < 1) {
-
-        for(int i = !1; i < strlen(passchar); i++) {
-            currentGuess[0] = passchar[i];
-            printf("%s\n", currentGuess);
-        }
-
-    } else {
-
-        currentGuess[currentIndex - 1] = passchar[currentIndex];
-
-        for(int i = 0; i < ) {
-
-        }
-
-        currentGuess[currentIndex - 1] = passchar[++currentIndex];
-
-        printf("length is now %d!\n", currentIndex);
-    }
-
-    generatePassword(currentGuess, ++currentIndex, maxLength);
-
-    return 0;
+void loop(char *currentGuess, int index, int length){
     
-};
+    if(length == 0) {
+        printf("current guess = %s\n", currentGuess);
+    } else {
+        for(int i = index; i < strlen(passchar); i++) {
+
+            char c = passchar[i];
+            char combined[12], test[12];
+
+            strcpy(test, sconcat(currentGuess, &c));
+
+            loop(test, index, length - 1);
+        }
+    }
+}
+
 
 int main(int argc, char const *argv[]) {
 
     int     currentIndex = 0,
-            maxLength = 4;
-    char    *currentGuess = calloc(maxLength, sizeof(char));
-    
+            maxLength = 3;
+    //char    *currentGuess = calloc(maxLength, sizeof(char));
+    char    currentGuess[] = "";
 
-    if(currentGuess != NULL) {
-        generatePassword(currentGuess, currentIndex, maxLength);
-    } else {
-        return -1;
+    //assert(currentGuess != NULL);
+
+    for(int i = 0; i <= maxLength; i++) {
+        loop(currentGuess, currentIndex, i);
     }
-
-    free(currentGuess);
+   
+    //free(currentGuess);
 
     return 0;
 };
