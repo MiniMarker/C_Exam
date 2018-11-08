@@ -10,11 +10,18 @@ int lookupHashInDictionary(char salt[13], char hash[22]){
     char    line[40], 
             encryptedLookup[35];
     FILE    *dictionary_file;
+    int     counter = 0;
 
     dictionary_file = fopen("./src/resources/dictionaryFull.txt", "r");
     assert(dictionary_file != NULL);
 
     while (fgets(line, sizeof(line), dictionary_file) != 0) { 
+
+        counter++;
+
+        if(counter % 10000 == 0) {
+            printf("The search has reached line %d of 1 000 004\n", counter);
+        }
 
         //remove \n from the end of the line
         strtok(line, "\n");
