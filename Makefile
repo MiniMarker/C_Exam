@@ -1,5 +1,3 @@
-# TODO Fix makefile
-
 # FLAGS
 CC = gcc
 CC_FLAGS = -Wall -std=c11

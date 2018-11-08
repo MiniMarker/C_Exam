@@ -2,6 +2,8 @@
 
 # Folder sturcture
 
+.keep files is used to force GitHub to push empty directories.
+
 - /bin
     - runnable binary files
 - /build
@@ -16,4 +18,6 @@
     - .c files
     - resourses
 
-
+README.md <br/>
+Makefile <br/>
+.gitignore

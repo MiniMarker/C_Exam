@@ -8,10 +8,9 @@ SplittedPassword splitHash(char hash[35]) {
 
     SplittedPassword res;
 
-    //extract salt and hash
-    //strrchr reads the char* from back until it hits a specified delimiter
     snprintf(res.salt, 13, "%s", hash);
 
+    //strrchr reads the char* from back until it hits a specified delimiter
     char *hashextract = (strrchr(hash, '$') + 1);
     strncpy(res.hash, hashextract, 22);
 

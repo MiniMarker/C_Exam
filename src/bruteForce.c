@@ -5,7 +5,6 @@
 
 #include "../include/dictionary.h"
 
-//static char *passchar = "abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+\"#&/()=?!@$|[]|{}";
 static char *passchar = "abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+\"#&/()=?!@$|[]|{}";
 
 int loop(char *str, int index, char *salt, char *hash){
@@ -26,8 +25,6 @@ int loop(char *str, int index, char *salt, char *hash){
             return 0;
         }
 
-        //printf("string: %s\n", str);
-
         if(index - 1 >= 0) {
             loop(str, index - 1, salt, hash);
         }
@@ -38,8 +35,6 @@ int loop(char *str, int index, char *salt, char *hash){
 
 int bruteforceEntry(char *salt, char *hash) {
 
-    printf("Entered bruteforceEntry\n");
-
     int     maxLength = 5;
     char    *currentGuess = calloc(maxLength + 1, sizeof(char));
 
@@ -47,9 +42,6 @@ int bruteforceEntry(char *salt, char *hash) {
         loop(currentGuess, i, salt, hash);
     }
 
-    printf("Done!\n");
-
     free(currentGuess);
-
     return 0;
 }

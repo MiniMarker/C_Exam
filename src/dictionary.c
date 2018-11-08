@@ -6,37 +6,6 @@
 
 #include "../include/dictionary.h"
 
-/*
-//This is a method for getting hashes from a file, for reason why this isnt implemented please see README
-
-int getHashFromFile() {
-    FILE    *hashFile;
-    char    *hashFilePath = "./src/resources/hashes.txt";
-    char    readPasswordBuffer[35];
-    
-    hashFile = fopen(hashFilePath, "r");
-    assert(hashFile != NULL);
-    
-    for(int i = 0; i < 9; i++) {
-
-        if(i == 1) {
-
-            printf("Looking for matches for line %d\n", i);
-        
-            fscanf(hashFile, "%s", readPasswordBuffer);
-
-            SplittedPassword passStruct = splitHash(readPasswordBuffer);
-
-            lookupHashInDictionary(passStruct.salt, passStruct.hash);
-
-        }
-    }
-    
-    fclose(hashFile);
-    return 0;
-}
-*/
-
 int lookupHashInDictionary(char salt[13], char hash[22]){
     char    line[40], 
             encryptedLookup[35];
@@ -67,3 +36,34 @@ int lookupHashInDictionary(char salt[13], char hash[22]){
     fclose(dictionary_file);
     return 0;
 };
+
+/*
+//This is a method for getting hashes from a file, for reason why this isnt implemented please see README
+
+int getHashFromFile() {
+    FILE    *hashFile;
+    char    *hashFilePath = "./src/resources/hashes.txt";
+    char    readPasswordBuffer[35];
+    
+    hashFile = fopen(hashFilePath, "r");
+    assert(hashFile != NULL);
+    
+    for(int i = 0; i < 9; i++) {
+
+        if(i == 1) {
+
+            printf("Looking for matches for line %d\n", i);
+        
+            fscanf(hashFile, "%s", readPasswordBuffer);
+
+            SplittedPassword passStruct = splitHash(readPasswordBuffer);
+
+            lookupHashInDictionary(passStruct.salt, passStruct.hash);
+
+        }
+    }
+    
+    fclose(hashFile);
+    return 0;
+}
+*/
