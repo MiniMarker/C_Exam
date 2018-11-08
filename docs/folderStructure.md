@@ -15,7 +15,5 @@
 - /src
     - .c files
     - resourses
-- /test
-    - test files running Check tests
 
 

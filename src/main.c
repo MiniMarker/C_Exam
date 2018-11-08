@@ -4,12 +4,14 @@
 #include "../include/dictionary.h"
 
 int main(int argc, char *argv[]) {
-    // TODO Threads
 
-    // argv[1] NEEDS TO BE IN SINGLE QUOTES!!
-        // ./bin/dictionary '$1$ckvWM6T@$H6H/R5d4a/QjpB02Ri/V01'
-
-    argv[1] == NULL ? getHashFromFile() : splitGivenHash(argv[1]);
+    if(argv[1] == NULL) {
+        printf("ERROR! Please add a hash to decrypt\n");
+        printf("Please see README for instructions\n");
+        return -1;
+    } else {
+        splitGivenHash(argv[1]);
+    }
 
     return 0;
 };

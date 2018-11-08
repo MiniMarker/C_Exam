@@ -6,9 +6,10 @@
 
 #include "../include/dictionary.h"
 
+/*
+//This is a method for getting hashes from a file, for reason why this isnt implemented please see README
 
-
-int getHashFromFile(int mode) {
+int getHashFromFile() {
     FILE    *hashFile;
     char    *hashFilePath = "./src/resources/hashes.txt";
     char    readPasswordBuffer[35];
@@ -34,6 +35,7 @@ int getHashFromFile(int mode) {
     fclose(hashFile);
     return 0;
 }
+*/
 
 int lookupHashInDictionary(char salt[13], char hash[22]){
     char    line[40], 
