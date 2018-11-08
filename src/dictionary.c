@@ -6,34 +6,7 @@
 
 #include "../include/dictionary.h"
 
-SplittedPassword splitHash(char hash[35]) {
 
-    SplittedPassword res;
-
-    //extract salt and hash
-    //strrchr reads the char* from back until it hits a specified delimiter
-    snprintf(res.salt, 13, "%s", hash);
-
-    char *hashextract = (strrchr(hash, '$') + 1);
-    strncpy(res.hash, hashextract, 22);
-
-    return res;
-}
-
-int splitGivenHash(char *hash) {
-
-    SplittedPassword passStruct = splitHash(hash);
-    char hackyHash[23];
-    
-    printf("Now searching for %s\n", hash);
-
-    //Bug in code, the returned value in passStruct was of length 25, needed to hack a solution...
-    snprintf(hackyHash, 23, "%s", passStruct.hash);
-
-    lookupHashInDictionary(passStruct.salt, hackyHash);
-
-    return 0;
-}
 
 int getHashFromFile(int mode) {
     FILE    *hashFile;
@@ -45,17 +18,16 @@ int getHashFromFile(int mode) {
     
     for(int i = 0; i < 9; i++) {
 
-        printf("Looking for matches for line %d\n", i);
-        
-        fscanf(hashFile, "%s", readPasswordBuffer);
-
-        // only lookup line 2 in list for now
-        // TODO remove this if closure
         if(i == 1) {
+
+            printf("Looking for matches for line %d\n", i);
+        
+            fscanf(hashFile, "%s", readPasswordBuffer);
 
             SplittedPassword passStruct = splitHash(readPasswordBuffer);
 
             lookupHashInDictionary(passStruct.salt, passStruct.hash);
+
         }
     }
     
@@ -68,7 +40,7 @@ int lookupHashInDictionary(char salt[13], char hash[22]){
             encryptedLookup[35];
     FILE    *dictionary_file;
 
-    dictionary_file = fopen("./src/resources/dictionary.txt", "r");
+    dictionary_file = fopen("./src/resources/dictionaryFull.txt", "r");
     assert(dictionary_file != NULL);
 
     while (fgets(line, sizeof(line), dictionary_file) != 0) { 
@@ -81,9 +53,14 @@ int lookupHashInDictionary(char salt[13], char hash[22]){
         // only chext the last 22 chars to compare the hash
         if(strcmp(&encryptedLookup[12], hash) == 0) {
             printf("FOUND: %s    =   %s\n", encryptedLookup, line);
-            break;
+            return 0;
         }
     }
+
+    printf("End of dictionary file, no match found\n");
+    printf("Starting bruteforce...\n");
+    
+    bruteforceEntry(salt, hash);
 
     fclose(dictionary_file);
     return 0;

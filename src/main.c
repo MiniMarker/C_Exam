@@ -4,8 +4,6 @@
 #include "../include/dictionary.h"
 
 int main(int argc, char *argv[]) {
-
-    // TODO if no argument is sent in with main, look up all hashes in file. Else look up given hash
     // TODO Threads
 
     // argv[1] NEEDS TO BE IN SINGLE QUOTES!!

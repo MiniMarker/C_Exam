@@ -5,13 +5,51 @@
 
 #include "../include/dictionary.h"
 
-int bruteforce(char salt[13], char hash[22], char fullHash[35]){
-    
-    return 0;
+//static char *passchar = "abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+\"#&/()=?!@$|[]|{}";
+static char *passchar = "abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+\"#&/()=?!@$|[]|{}";
+
+int loop(char *str, int index, char *salt, char *hash){
+
+    char encryptedWord[35];
+
+    for(int i = 0; i < strlen(passchar); i++) {
+
+        str[index] = passchar[i];
+
+        strcpy(encryptedWord, crypt(str, salt));
+
+        //printf("str: %s, encrypted = %s\n", str, encryptedWord);
+        
+        if(strcmp(&encryptedWord[12], hash) == 0) {
+            printf("FOUND: %s    =   %s\n", encryptedWord, str);
+            exit(0);
+            return 0;
+        }
+
+        //printf("string: %s\n", str);
+
+        if(index - 1 >= 0) {
+            loop(str, index - 1, salt, hash);
+        }
+    }
+
+    return 1;
 }
 
-int generateGuesses(char passchars[], char* currentGuess, int index, int maxPasswordLength) {
+int bruteforceEntry(char *salt, char *hash) {
 
-    
+    printf("Entered bruteforceEntry\n");
+
+    int     maxLength = 5;
+    char    *currentGuess = calloc(maxLength + 1, sizeof(char));
+
+    for(int i = 0; i < maxLength; i++) {
+        loop(currentGuess, i, salt, hash);
+    }
+
+    printf("Done!\n");
+
+    free(currentGuess);
+
     return 0;
 }
