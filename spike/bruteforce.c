@@ -5,26 +5,49 @@
 #include <crypt.h>
 
 //static char *passchar = "abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+\"#&/()=?!@$|[]|{}";
-static char *passchar = "ikjlmnopqrstuvwxyzABCDEF";
-static char *salt = "$1$9779ofJE$";
+static char *passchar = "ABC";
+static char *stringToFind = "BA";
+//static char *salt = "$1$9779ofJE$";
 
-char *concatinateString(char *s1, char *s2) {
-  char *res = malloc(sizeof(s1) + sizeof(s2));
+int loop(char *str, int index){
 
-  strcpy(res, s1);
-  strcat(res, s2);
+    for(int i = 0; i < strlen(passchar); i++) {
 
-  return res;
+        str[index] = passchar[i];
+
+        printf("string: %s\n", str);
+
+        if(index - 1 > 0) {
+            loop(str, index - 1);
+        }
+    }
+
+    return 1;
 }
 
-void loop(char *currentGuess, int index, int length){
-    char encryptedWord[35];
-    
-    if(length == 0) {
 
-        printf("currentGuess: %s\n", currentGuess);
+int main(int argc, char const *argv[]) {
 
-        /*
+    int     maxLength = 5;
+    char    *currentGuess = calloc(maxLength + 1, sizeof(char));
+
+    for(int i = 0; i < maxLength; i++) {
+
+        if(loop(currentGuess, i) == 0) {
+            printf("FOUND!!!!");
+            return 0;
+        }
+    }
+
+    free(currentGuess);
+
+    return 0;
+};
+
+
+
+
+/*
         strcpy(encryptedWord, crypt(currentGuess, salt));
 
         printf("currentGuess: %s, encrypted = %s\n", currentGuess, encryptedWord);
@@ -34,33 +57,3 @@ void loop(char *currentGuess, int index, int length){
             return;
         }
         */
-
-       //printf("index: %d....      currentGuess: %s....\n", index, currentGuess);
-
-    } else {
-        for(int i = 0; i < strlen(passchar); i++) {
-
-            char c = passchar[i];
-            //printf("c = %c\n", c);
-            char *combined = concatinateString(currentGuess, &c);
-
-            //printf("i: %d....      currentGuess: %s....      &c: %s....     combined: %s\n", i, currentGuess, &c, combined);
-            loop(combined, index, length - 1);
-
-            free(combined);
-        }
-    }
-}
-
-
-int main(int argc, char const *argv[]) {
-
-    int     maxLength = 2;
-    char    currentGuess[] = "";
-
-    for(int i = 0; i <= maxLength; i++) {
-        loop(currentGuess, 0, i);
-    }
-
-    return 0;
-};

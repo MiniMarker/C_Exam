@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
     // argv[1] NEEDS TO BE IN SINGLE QUOTES!!
         // ./bin/dictionary '$1$ckvWM6T@$H6H/R5d4a/QjpB02Ri/V01'
 
-    argv[1] == NULL ? getHashFromFile(1) : lookupGivenHash(argv[1]);
+    argv[1] == NULL ? getHashFromFile() : splitGivenHash(argv[1]);
 
     return 0;
 };
