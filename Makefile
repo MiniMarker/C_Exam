@@ -34,7 +34,6 @@ bruteForce.o: ./src/bruteForce.c
 
 # UTIL CMDS
 clean:
-	rm $(BUILD_DIR)/*.o
+	rm $(BUILD_DIR)/*.o $(BIN_DIR)/main
 
-remake: 
-	clean $(TAzRGET)
+remake: cle	clean $(TARGET)
